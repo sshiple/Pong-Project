@@ -22,8 +22,8 @@ pygame.display.set_caption("Pong")
 
 
 rectColor = (255, 255, 255) #sets the rectangle color
-rectSize = rectWidth, rectHeight = 70, 300 # sets size of the square to 100x100
-rectPos = rectX, rectY = 0, 0 #sets the position of the square within the
+rectSize = rectWidth, rectHeight = 70, 100 # sets size of the square to 100x100
+rectPos = rectX, rectY = 0, 100 #sets the position of the square within the
 # display
 
 rectSpeed = 2 # I dont know what this means at all
@@ -32,12 +32,22 @@ rectSpeed = 2 # I dont know what this means at all
 
 gameRect = pygame.Rect(rectX, rectY, rectWidth, rectHeight)
 
+def move_rect(gameRect):
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_UP]:
+        gameRect.move_ip(0, -rectSpeed)
+    if keys[pygame.K_DOWN]:
+        gameRect.move_ip(0, rectSpeed)
+
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+    
+    move_rect(gameRect)
 
     gameRect.clamp_ip(surface.get_rect())
 
