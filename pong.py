@@ -30,7 +30,7 @@ wht_color = (255, 255, 255)
 
 rectColor = wht_color #sets the rectangle color
 rectSize = rectWidth, rectHeight = 30, 150 # sets size of the square to 100x100
-rectPos = rectX, rectY = 0, 100 #sets the position of the square within the
+rectPos = rectX, rectY = 0, (screenWidth / 2) - 75 #sets the position of the square within the
 # display
 
 rectSpeed = 1 # I dont know what this means at all
@@ -41,9 +41,16 @@ player = pygame.Rect(rectX, rectY, rectWidth, rectHeight)
 
 # HANDLE 2 CREATION = = = = = = = = = = = = = = = = = = = = 
 
-rect_twoPos = rect_twoX, rect_twoY = 1280, 0
+rect_twoPos = rect_twoX, rect_twoY = 1280, (screenWidth / 2) - 75
 
 player_two = pygame.Rect(rect_twoX, rect_twoY, rectWidth, rectHeight)
+
+# CREATION OF THE BALL
+
+ballSize = ballHeight, ballWidth = 20, 20
+ballPos = ballX, ballY = (screenHeight / 2) -10 , (screenWidth / 2) - 10 
+
+ball = pygame.Rect(ballX, ballY, ballWidth, ballHeight)
 
 # MOVEMENT FOR PLAYER ONE 
 def move_rect(player):
@@ -81,6 +88,7 @@ while True:
     player.clamp_ip(surface.get_rect())
     player_two.clamp_ip(surface.get_rect())
 
+    pygame.draw.ellipse(surface, wht_color, ball)
     pygame.draw.rect(surface, rectColor, player)
     pygame.draw.rect(surface, rectColor, player_two)
 
