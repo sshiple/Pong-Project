@@ -16,21 +16,28 @@ import pygame, sys # imports the required libraries
     
 pygame.init()
 
-screenSize = screenHeight, screenWidth = 1280, 960
+# this is the creation of the screen
+
+screenSize = screenHeight, screenWidth = 1280, 780
 surface = pygame.display.set_mode(screenSize)
 pygame.display.set_caption("Pong")
 
 
-rectColor = (255, 255, 255) #sets the rectangle color
-rectSize = rectWidth, rectHeight = 70, 100 # sets size of the square to 100x100
+bg_color = pygame.Color('grey12')
+wht_color = (255, 255, 255)
+
+rectColor = wht_color #sets the rectangle color
+rectSize = rectWidth, rectHeight = 70, 200 # sets size of the square to 100x100
 rectPos = rectX, rectY = 0, 100 #sets the position of the square within the
 # display
 
-rectSpeed = 2 # I dont know what this means at all
+rectSpeed = 1 # I dont know what this means at all
 # I found out its the speed that the square moves when the controls are pressed
 # the lower the number the slower it goes and vice versa 
 
 gameRect = pygame.Rect(rectX, rectY, rectWidth, rectHeight)
+
+
 
 def move_rect(gameRect):
     keys = pygame.key.get_pressed()
@@ -40,6 +47,11 @@ def move_rect(gameRect):
         gameRect.move_ip(0, rectSpeed)
 
 
+
+        
+#game loop
+        
+        
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -48,6 +60,8 @@ while True:
 
     
     move_rect(gameRect)
+
+    surface.fill(bg_color)
 
     gameRect.clamp_ip(surface.get_rect())
 
