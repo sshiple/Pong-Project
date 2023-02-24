@@ -104,7 +104,7 @@ while 1:
             pygame.quit()
             sys.exit()
 
-    rectList = [ball, player, player_two]
+    #rectList = [ball, player, player_two]
 
     surface.fill(bg_color)
 
