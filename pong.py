@@ -1,4 +1,4 @@
-import pygame, sys # imports the required libraries
+import pygame, sys, random # imports the required libraries
 
 #what the game should have
     #game loop
@@ -18,7 +18,7 @@ pygame.init()
 
 # this is the creation of the screen that the game is
 
-screenSize = screenHeight, screenWidth = 1280, 780
+screenSize = screenWidth, screenHeight = 1280, 780
 surface = pygame.display.set_mode(screenSize)
 pygame.display.set_caption("Pong")
 
@@ -30,7 +30,7 @@ wht_color = (255, 255, 255)
 
 rectColor = wht_color #sets the rectangle color
 rectSize = rectWidth, rectHeight = 30, 150 # sets size of the square to 100x100
-rectPos = rectX, rectY = 0, (screenWidth / 2) - 75 #sets the position of the square within the
+rectPos = rectX, rectY = 0, (screenHeight / 2) - 75 #sets the position of the square within the
 # display
 
 rectSpeed = 1
@@ -41,33 +41,36 @@ player = pygame.Rect(rectX, rectY, rectWidth, rectHeight)
 
 # HANDLE 2 CREATION = = = = = = = = = = = = = = = = = = = =
 
-rect_twoPos = rect_twoX, rect_twoY = 1280, (screenWidth / 2) - 75
+rect_twoPos = rect_twoX, rect_twoY = 1280, (screenHeight / 2) - 75
 player_two = pygame.Rect(rect_twoX, rect_twoY, rectWidth, rectHeight)
 
 
-#Top and Bottom Borders
-borderTop = pygame.Rect(0, 0, screenHeight, 1)                 #Starts at the origin and stretches to the right side
-borderBottom = pygame.Rect(0, screenWidth-1, screenHeight, 1)  #Starts 1 pixel away from the bottom and stretches to the right side
+#The Areas of the Game
+borderTop = pygame.Rect(0, 0, screenWidth, 1)                 #Starts at the origin and stretches to the right side
+borderBottom = pygame.Rect(0, screenHeight-1, screenWidth, 1) #Starts 1 pixel away from the bottom and stretches to the right side
+board = pygame.Rect(0, 0, screenWidth, screenHeight)
 
 
 # CREATION OF THE BALL
 ballSize = ballHeight, ballWidth = 20, 20
-ballPos = ballX, ballY = (screenHeight / 2) -10 , (screenWidth / 2) - 10
+ballPos = ballX, ballY = (screenWidth/2) - 10, (screenHeight/2) - 10
 ball = pygame.Rect(ballX, ballY, ballWidth, ballHeight)
-ballSpeedX = 1
-ballSpeedY = -1
-
+ballSpeedX = random.choice([-1, 1])
+ballSpeedY = random.choice([-1, 1])
+breakTime = 0;
 #clock = pygame.time.Clock()
+
 
 def move_ball(ball):
     #These have to be declared global. Otherwise, they'd be local, since they're in a function.
-    global ballSpeedX, ballSpeedY
+    global ballSpeedX, ballSpeedY, breakTime
 
     #This is to get a near constant framerate (might need this later)
     #dt = clock.tick(30)
     #ball.move_ip(ballSpeedX*dt, 0)
     #print(clock.get_fps())
 
+    #How the ball bounces
     if ball.colliderect(player) or ball.colliderect(player_two):
         ballSpeedX *= -1
         ball.move_ip(ballSpeedX, ballSpeedY) #move_ip needs to be here too since the ball would be stuck otherwise
@@ -76,6 +79,14 @@ def move_ball(ball):
         ball.move_ip(ballSpeedX, ballSpeedY) #move_ip needs to be here too since the ball would be stuck otherwise
     else:
         ball.move_ip(ballSpeedX, ballSpeedY) #The default state
+
+    #How the ball respawns
+    if not board.contains(ball):
+        breakTime += 1 #Using pygame.time.wait or pygame.time.delay instead would not show the ball leaving the board.
+        if breakTime == 300:
+            ball.update(ballX, random.randrange(0, screenHeight, 1), ballWidth, ballHeight) #The y-value will be random along the line.
+            ballSpeedY = random.choice([-1, 1]) #For ballSpeedX, the ball will always go to the player who didn't score.
+            breakTime = 0
 
 
 # MOVEMENT FOR PLAYER ONE
@@ -104,7 +115,7 @@ while 1:
             pygame.quit()
             sys.exit()
 
-    #rectList = [ball, player, player_two]
+    #rectList = [ball, player, player_two, board]
 
     surface.fill(bg_color)
 
@@ -118,8 +129,7 @@ while 1:
     pygame.draw.ellipse(surface, wht_color, ball)
     pygame.draw.rect(surface, rectColor, player)
     pygame.draw.rect(surface, rectColor, player_two)
-
-    pygame.draw.aaline(surface, wht_color, (screenHeight / 2, 0), (screenHeight / 2, screenWidth))
+    pygame.draw.aaline(surface, wht_color, (screenWidth / 2, 0), (screenWidth / 2, screenHeight))
 
     # pygame.draw.rect(surface, rectColor, gameRect_2)
 
