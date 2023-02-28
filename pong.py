@@ -50,6 +50,12 @@ borderTop = pygame.Rect(0, 0, screenWidth, 1)                 #Starts at the ori
 borderBottom = pygame.Rect(0, screenHeight-1, screenWidth, 1) #Starts 1 pixel away from the bottom and stretches to the right side
 board = pygame.Rect(0, 0, screenWidth, screenHeight)
 
+#text variables = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+player_score = 0
+player_two_score = 0
+game_font = pygame.font.Font("Jura.ttf", 42)
+
 
 # CREATION OF THE BALL
 ballSize = ballHeight, ballWidth = 20, 20
@@ -130,6 +136,12 @@ while 1:
     pygame.draw.rect(surface, rectColor, player)
     pygame.draw.rect(surface, rectColor, player_two)
     pygame.draw.aaline(surface, wht_color, (screenWidth / 2, 0), (screenWidth / 2, screenHeight))
+
+    player_text = game_font.render(f"{player_score}", True, wht_color)
+    surface.blit(player_text, (800,75))
+   
+    player_two_text = game_font.render(f"{player_two_score}", True, wht_color)
+    surface.blit(player_two_text, (450,75))
 
     # pygame.draw.rect(surface, rectColor, gameRect_2)
 
