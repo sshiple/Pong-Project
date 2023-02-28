@@ -48,6 +48,8 @@ player_two = pygame.Rect(rect_twoX, rect_twoY, rectWidth, rectHeight)
 #The Areas of the Game
 borderTop = pygame.Rect(0, 0, screenWidth, 1)                 #Starts at the origin and stretches to the right side
 borderBottom = pygame.Rect(0, screenHeight-1, screenWidth, 1) #Starts 1 pixel away from the bottom and stretches to the right side
+board_left_size = board_left_width, board_left_height = 1, 780
+board_left = pygame.Rect(0, 0, board_left_width, board_left_height)
 board = pygame.Rect(0, 0, screenWidth, screenHeight)
 
 #text variables = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -86,6 +88,14 @@ def move_ball(ball):
     else:
         ball.move_ip(ballSpeedX, ballSpeedY) #The default state
 
+    # updating the score ++++++++++++++++++++++  NEW   +++++++++++++++
+    if ball.colliderect(board_left):
+        player_score += 1
+        ballSpeedX *= -1
+        ballSpeedY *= -1
+        ball.move_ip(ballSpeedX, ballSpeedY)
+        # I'm unsure on whether I need a function call underneath here or not.
+
     #How the ball respawns
     if not board.contains(ball):
         breakTime += 1 #Using pygame.time.wait or pygame.time.delay instead would not show the ball leaving the board.
@@ -93,17 +103,17 @@ def move_ball(ball):
             ball.update(ballX, random.randrange(0, screenHeight, 1), ballWidth, ballHeight) #The y-value will be random along the line.
             ballSpeedY = random.choice([-1, 1]) #For ballSpeedX, the ball will always go to the player who didn't score.
             breakTime = 0
-    update_score()
+   
 
 
-def update_score():
-    global player_score, player_two_score
-    if ballX <= 0:
-        player_two_score += 1
-        return 
-    elif ballX >= 1280:
-        player_score += 1
-        return 
+# def update_score():
+#     global player_score, player_two_score
+#     if ballX <= 0:
+#         player_two_score += 1
+#         return 
+#     elif ballX >= 1280:
+#         player_score += 1
+#         return 
 
 
 
@@ -158,5 +168,5 @@ while 1:
     # pygame.draw.rect(surface, rectColor, gameRect_2)
 
     #pygame.display.update(rectList) #Might need this later
-    update_score()
+#
     pygame.display.update()
