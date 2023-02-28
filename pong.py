@@ -69,7 +69,7 @@ breakTime = 0;
 
 def move_ball(ball):
     #These have to be declared global. Otherwise, they'd be local, since they're in a function.
-    global ballSpeedX, ballSpeedY, breakTime
+    global ballSpeedX, ballSpeedY, breakTime, player_score, player_two_score
 
     #This is to get a near constant framerate (might need this later)
     #dt = clock.tick(30)
@@ -93,6 +93,18 @@ def move_ball(ball):
             ball.update(ballX, random.randrange(0, screenHeight, 1), ballWidth, ballHeight) #The y-value will be random along the line.
             ballSpeedY = random.choice([-1, 1]) #For ballSpeedX, the ball will always go to the player who didn't score.
             breakTime = 0
+    update_score()
+
+
+def update_score():
+    global player_score, player_two_score
+    if ballX <= 0:
+        player_two_score += 1
+        return 
+    elif ballX >= 1280:
+        player_score += 1
+        return 
+
 
 
 # MOVEMENT FOR PLAYER ONE
@@ -146,4 +158,5 @@ while 1:
     # pygame.draw.rect(surface, rectColor, gameRect_2)
 
     #pygame.display.update(rectList) #Might need this later
+    update_score()
     pygame.display.update()
