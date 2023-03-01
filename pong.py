@@ -71,7 +71,7 @@ breakTime = 0;
 
 def move_ball(ball):
     #These have to be declared global. Otherwise, they'd be local, since they're in a function.
-    global ballSpeedX, ballSpeedY, breakTime, player_score, player_two_score
+    global ballSpeedX, ballSpeedY, breakTime, player_score, player_two_score, ballX, ballY
 
     #This is to get a near constant framerate (might need this later)
     #dt = clock.tick(30)
@@ -81,39 +81,45 @@ def move_ball(ball):
     #How the ball bounces
     if ball.colliderect(player) or ball.colliderect(player_two):
         ballSpeedX *= -1
+        ballX += ballSpeedX #Only ballX needs to be tracked for scores.
         ball.move_ip(ballSpeedX, ballSpeedY) #move_ip needs to be here too since the ball would be stuck otherwise
     elif ball.colliderect(borderTop) or ball.colliderect(borderBottom):
         ballSpeedY *= -1
+        ballX += ballSpeedX
         ball.move_ip(ballSpeedX, ballSpeedY) #move_ip needs to be here too since the ball would be stuck otherwise
     else:
+        ballX += ballSpeedX
         ball.move_ip(ballSpeedX, ballSpeedY) #The default state
 
     # updating the score ++++++++++++++++++++++  NEW   +++++++++++++++
-    if ball.colliderect(board_left):
-        player_score += 1
-        ballSpeedX *= -1
-        ballSpeedY *= -1
-        ball.move_ip(ballSpeedX, ballSpeedY)
+    #if ball.colliderect(board_left):
+        #player_score += 1
+        #ball.move_ip(ballSpeedX, ballSpeedY)
         # I'm unsure on whether I need a function call underneath here or not.
 
     #How the ball respawns
     if not board.contains(ball):
         breakTime += 1 #Using pygame.time.wait or pygame.time.delay instead would not show the ball leaving the board.
-        if breakTime == 300:
+        if breakTime == 150:
+            if ballX < 0:
+                player_score += 1
+            else:
+                player_two_score += 1
+            ballX = (screenWidth/2) - 10 #Resetting ballX
             ball.update(ballX, random.randrange(0, screenHeight, 1), ballWidth, ballHeight) #The y-value will be random along the line.
             ballSpeedY = random.choice([-1, 1]) #For ballSpeedX, the ball will always go to the player who didn't score.
             breakTime = 0
-   
+
 
 
 # def update_score():
 #     global player_score, player_two_score
 #     if ballX <= 0:
 #         player_two_score += 1
-#         return 
+#         return
 #     elif ballX >= 1280:
 #         player_score += 1
-#         return 
+#         return
 
 
 
@@ -161,7 +167,7 @@ while 1:
 
     player_text = game_font.render(f"{player_score}", True, wht_color)
     surface.blit(player_text, (800,75))
-   
+
     player_two_text = game_font.render(f"{player_two_score}", True, wht_color)
     surface.blit(player_two_text, (450,75))
 
