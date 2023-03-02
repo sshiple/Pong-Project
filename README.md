@@ -1,6 +1,5 @@
 # Pong Project
 
-Description
 ![pong game img](https://user-images.githubusercontent.com/102317619/222326890-bdeb57b2-23ed-4258-90ce-1b14a930799b.png)
 Program Versions
   Mac OS Big Sur + Windows 11
@@ -25,6 +24,10 @@ Program Versions
         The game contollers could handle a bit smoother. It kind of jumps, the motion is not fluid. Upgrading the 
         physics on that would be a plus. An extra feature would be sound a sound that is made each time a player
         scores or when the game is over.
+        There's currently a glitch in the game that would need to be patched up in the future. It happens when
+        the handle/paddle slides over the ball when the ball is next to it. The ball then goes through the handle
+        from one end to another. I already tried to fix it, by displacing the ball onto the side of the handle,
+        but this would cause problems for the score tracking.
  
  Generalization: 
      The games has all the usual components of most games. A game loops that runs until the player wants to quit, 
