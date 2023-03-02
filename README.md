@@ -16,7 +16,7 @@
     We decided to structure the code the way we did to have everything organized and easy 
     to find what we need. We placed all the variables up at the top and labeled the section 
     accordingly. We had our controller functions right underneath, these include the ball and both 
-    of the handles. THen the game loop was last.
+    of the handles. Then the game loop was last.
 
 ## Image:
  
@@ -33,5 +33,8 @@
 ### Generalization: 
      The games has all the usual components of most games. A game loops that runs until the player wants to quit, 
      handles that the player can control and a main objective for the player to obtain.
+
+## Instructions:
+Run the program with "python3 pong.py". This is a 2 player game, so Player 1 will control the left handle with 'w' and 's', and Player 2 will control the right side with the up and down arrow keys.
  
     
