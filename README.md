@@ -26,5 +26,8 @@ Program Versions
         physics on that would be a plus. An extra feature would be sound a sound that is made each time a player
         scores or when the game is over.
  
+ Generalization: 
+     The games has all the usual components of most games. A game loops that runs until the player wants to quit, 
+     handles that the player can control and a main objective for the player to obtain.
  
     
